@@ -10,6 +10,8 @@ import UIKit
 class SquareView: UIView {
     var label: UILabel!
     var button: UIButton!
+    var onButtonSelection: (() -> Void)?
+    var isValueSet: Bool = false
     
     init() {
         super.init(frame: .zero)
@@ -22,11 +24,29 @@ class SquareView: UIView {
     }
     
     private func commonInit() {
-        backgroundColor = .blue
+        backgroundColor = .white
         initLabel()
         initButton()
         constructHierarchy()
         activateConstraints()
+        
+        button.addTarget(
+            self, action: #selector(buttonPressed),
+            for: .touchUpInside
+        )
+    }
+    
+    @objc func buttonPressed() {
+        onButtonSelection?()
+    }
+    
+    func set(value: String) {
+        guard isValueSet else {
+            label.text = value
+            isValueSet = true
+            return
+        }
+        isValueSet = true
     }
 }
 
@@ -34,9 +54,8 @@ extension SquareView {
     private func initLabel() {
         label = UILabel()
         label.textAlignment = .center
-        label.textColor = .white
-        label.text = "A"
-        label.font = .systemFont(ofSize: 24, weight: .heavy)
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 30, weight: .heavy)
         label.translatesAutoresizingMaskIntoConstraints = false
     }
     
