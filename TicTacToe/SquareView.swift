@@ -48,6 +48,11 @@ class SquareView: UIView {
         }
         isValueSet = true
     }
+    
+    func removeData() {
+        isValueSet = false
+        label.text = ""
+    }
 }
 
 extension SquareView {
